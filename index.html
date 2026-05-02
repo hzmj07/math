@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Math Visual Tool — EBOB, EKOK, Daire & Üçgen</title>
+  <meta name="description"
+    content="Temel matematik işlemlerini görsel olarak keşfet: EBOB/EKOK hesaplayıcı, daire alan-çevre hesabı ve üçgen alan hesabı. Canvas tabanlı interaktif çizimler." />
+  <meta name="keywords" content="EBOB, EKOK, GCD, LCM, daire alanı, üçgen alanı, matematik görselleştirme" />
+
+  <link rel="stylesheet" href="style.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+      <div class="app-logo" aria-hidden="true"><i data-lucide="ruler" size="36"></i></div>
+      <h1>Math Visual Tool</h1>
+      <p>Matematik işlemlerini hesapla &amp; görsel olarak keşfet</p>
+    </header>
+
+    <nav class="tabs-container" role="tablist" aria-label="Hesaplama sekmeleri">
+      <button class="tab-btn active" data-tab="panel-gcd" role="tab" aria-selected="true" id="tab-gcd">
+        <span class="tab-icon"><i data-lucide="binary" size="18"></i></span>
+        <span class="tab-label">EBOB / EKOK</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-circle" role="tab" aria-selected="false" id="tab-circle">
+        <span class="tab-icon"><i data-lucide="circle" size="18"></i></span>
+        <span class="tab-label">Daire</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-triangle" role="tab" aria-selected="false" id="tab-triangle">
+        <span class="tab-icon"><i data-lucide="triangle" size="18"></i></span>
+        <span class="tab-label">Üçgen</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-function" role="tab" aria-selected="false" id="tab-function">
+        <span class="tab-icon"><i data-lucide="trending-up" size="18"></i></span>
+        <span class="tab-label">Fonksiyon</span>
+      </button>
+      <button class="tab-btn" data-tab="panel-abs" role="tab" aria-selected="false" id="tab-abs">
+        <span class="tab-icon"><i data-lucide="drafting-compass" size="18"></i></span>
+        <span class="tab-label">Mutlak Değer</span>
+      </button>
+    </nav>
+
+    <!-- =====================================================================
+       PANEL 1 — EBOB / EKOK
+  ====================================================================== -->
+    <section id="panel-gcd" class="tab-panel active" role="tabpanel" aria-labelledby="tab-gcd">
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon icon-blue"><i data-lucide="calculator" size="20"></i></div>
+          <div>
+            <h2>EBOB &amp; EKOK Hesaplayıcı</h2>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="num-a">Birinci Sayı (a)</label>
+            <input type="number" id="num-a" placeholder="örn. 48" min="1" />
+          </div>
+          <div class="form-group">
+            <label for="num-b">İkinci Sayı (b)</label>
+            <input type="number" id="num-b" placeholder="örn. 18" min="1" />
+          </div>
+        </div>
+
+        <button class="btn-calculate" id="btn-gcd">Hesapla →</button>
+
+        <!-- Result -->
+        <div class="result-panel" id="result-gcd">
+          <div class="result-header">Sonuçlar</div>
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="result-label">EBOB (GCD)</div>
+              <div class="result-value val-blue" id="res-gcd">—</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">EKOK (LCM)</div>
+              <div class="result-value val-purple" id="res-lcm">—</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Algorithm info -->
+
+      </div>
+
+      <!-- Canvas card -->
+      <div class="card canvas-card">
+        <div class="card-title">
+          <div class="card-icon icon-teal"><i data-lucide="bar-chart-3" size="20"></i></div>
+          <div>
+            <h2>Görsel Temsil</h2>
+            <p>Bar grafik ile EBOB dilimi</p>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-gcd" aria-label="EBOB görsel temsil"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+       PANEL 2 — DAİRE
+  ====================================================================== -->
+    <section id="panel-circle" class="tab-panel" role="tabpanel" aria-labelledby="tab-circle">
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon icon-teal"><i data-lucide="circle" size="20"></i></div>
+          <div>
+            <h2>Daire Hesaplayıcı</h2>
+            <p>Alan ve çevre, canvas üzerinde çizilir</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="circle-r">Yarıçap (r)</label>
+            <input type="number" id="circle-r" placeholder="örn. 5" min="0.01" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="circle-pi">Pi Sayısı (π)</label>
+            <select id="circle-pi" style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; color: var(--text-primary); font-family: 'Inter';">
+              <option value="3">3</option>
+              <option value="3.14">3.14</option>
+              <option value="3.1415926535" selected>Gerçek π (3.1415...)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-calculate btn-teal" id="btn-circle">Hesapla →</button>
+
+        <!-- Formulas -->
+        <div class="formula-strip">
+          <span class="formula-badge">A = π × r²</span>
+          <span class="formula-badge">C = 2 × π × r</span>
+          <span class="formula-badge">d = 2r</span>
+        </div>
+
+        <!-- Result -->
+        <div class="result-panel" id="result-circle">
+          <div class="result-header">Sonuçlar</div>
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="result-label">Alan (A = πr²)</div>
+              <div class="result-value val-teal" id="res-area">—</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Çevre (C = 2πr)</div>
+              <div class="result-value val-blue" id="res-circ">—</div>
+            </div>
+            <div class="result-item" style="border-top:1px solid var(--border); grid-column: 1 / -1;">
+              <div class="result-label">Çap (d = 2r)</div>
+              <div class="result-value val-pink" id="res-diam">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas card -->
+      <div class="card canvas-card">
+        <div class="card-title">
+          <div class="card-icon icon-teal"><i data-lucide="palette" size="20"></i></div>
+          <div>
+            <h2>Daire Çizimi</h2>
+            <p>Yarıçap ve çevre etiketleri ile</p>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-circle" aria-label="Daire çizimi"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+       PANEL 3 — ÜÇGEN
+  ====================================================================== -->
+    <section id="panel-triangle" class="tab-panel" role="tabpanel" aria-labelledby="tab-triangle">
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon icon-purple"><i data-lucide="triangle" size="20"></i></div>
+          <div>
+            <h2>Üçgen Alan Hesaplayıcı</h2>
+            <p>Taban × yükseklik / 2 formülü</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="tri-base">Taban (b)</label>
+            <input type="number" id="tri-base" placeholder="örn. 8" min="0.01" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="tri-height">Yükseklik (h)</label>
+            <input type="number" id="tri-height" placeholder="örn. 6" min="0.01" step="0.01" />
+          </div>
+        </div>
+
+        <button class="btn-calculate btn-warm" id="btn-triangle">Hesapla →</button>
+
+        <!-- Formulas -->
+        <div class="formula-strip">
+          <span class="formula-badge">A = (b × h) / 2</span>
+          <span class="formula-badge">A = ½ × b × h</span>
+        </div>
+
+        <!-- Result -->
+        <div class="result-panel" id="result-triangle">
+          <div class="result-header">Sonuçlar</div>
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="result-label">Alan (A)</div>
+              <div class="result-value val-purple" id="res-tri-area">—</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Taban (b)</div>
+              <div class="result-value val-gold" id="res-tri-base">—</div>
+            </div>
+            <div class="result-item" style="border-top:1px solid var(--border); grid-column: 1 / -1;">
+              <div class="result-label">Yükseklik (h)</div>
+              <div class="result-value val-pink" id="res-tri-h">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas card -->
+      <div class="card canvas-card">
+        <div class="card-title">
+          <div class="card-icon icon-gold"><i data-lucide="palette" size="20"></i></div>
+          <div>
+            <h2>Üçgen Çizimi</h2>
+            <p>Taban, yükseklik ve alan etiketleri ile</p>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-triangle" aria-label="Üçgen çizimi"></canvas>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =====================================================================
+         PANEL 4 — FONKSİYON
+    ====================================================================== -->
+    <section id="panel-function" class="tab-panel" role="tabpanel" aria-labelledby="tab-function">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon icon-blue"><i data-lucide="trending-up" size="20"></i></div>
+          <div>
+            <h2>Doğrusal Fonksiyonlar</h2>
+            <p>f(x) = ax + b grafiği ve özellikleri</p>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="func-a">Eğim (a)</label>
+            <input type="number" id="func-a" value="1" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="func-b">Kayma (b)</label>
+            <input type="number" id="func-b" value="0" step="1" />
+          </div>
+        </div>
+        <button class="btn-calculate" id="btn-function">Grafiği Çiz →</button>
+        <div class="result-panel" id="result-function">
+          <div class="result-header">Fonksiyon Analizi</div>
+          <div class="result-grid">
+            <div class="result-item">
+              <div class="result-label">Y-Ekseni Kesişimi</div>
+              <div class="result-value val-blue" id="res-func-y-coord">(0, —)</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">X-Ekseni Kesişimi (Kök)</div>
+              <div class="result-value val-teal" id="res-func-x-coord">(—, 0)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card canvas-card">
+        <div class="card-title">
+          <div class="card-icon icon-blue"><i data-lucide="grid" size="20"></i></div>
+          <div>
+            <h2>Koordinat Sistemi</h2>
+            <p>Dinamik grafik gösterimi</p>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-function"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         PANEL 6 — MUTLAK DEĞER
+    ====================================================================== -->
+    <section id="panel-abs" class="tab-panel" role="tabpanel" aria-labelledby="tab-abs">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon icon-teal"><i data-lucide="drafting-compass" size="20"></i></div>
+          <div>
+            <h2>Mutlak Değer</h2>
+            <p>Sayının 0 noktasına olan uzaklığı |x|</p>
+          </div>
+        </div>
+        <div class="form-grid single">
+          <div class="form-group">
+            <label for="abs-x">Sayı (x)</label>
+            <input type="number" id="abs-x" placeholder="örn. -5" step="0.1" />
+          </div>
+        </div>
+        <button class="btn-calculate btn-teal" id="btn-abs">Uzaklığı Göster →</button>
+        <div class="result-panel" id="result-abs">
+          <div class="result-header">Sonuç</div>
+          <div class="result-grid single">
+            <div class="result-item">
+              <div class="result-label">|x| Değeri</div>
+              <div class="result-value val-teal" id="res-abs-val">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card canvas-card">
+        <div class="card-title">
+          <div class="card-icon icon-teal"><i data-lucide="ruler-horizontal" size="20"></i></div>
+          <div>
+            <h2>Sayı Doğrusu</h2>
+            <p>Görsel mesafe gösterimi</p>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="canvas-abs"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="app-footer">
+      <p>Math Visual Tool &nbsp;·&nbsp; HTML · CSS · JavaScript · Canvas API &nbsp;·&nbsp; <i data-lucide="heart"
+          size="14" style="color: var(--accent-pink); vertical-align: middle;"></i> ile geliştirildi</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
