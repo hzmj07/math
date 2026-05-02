@@ -54,4 +54,4 @@ math-project/
 
 ## Lisans
 
-MIT — Özgürce kullanabilirsin.
+Kullanıma açık bir açık kaynak projedir. İstediğin gibi kullanabilir, değiştirebilirsin. 
