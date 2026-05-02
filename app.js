@@ -1,11 +1,6 @@
-// =====================================================================
-//  Math Visual Tool — app.js
-// =====================================================================
 
-// ——— Initialize Icons —————————————————————————————————————————————————
 lucide.createIcons();
 
-// ——— Tab switching ———————————————————————————————————————————————————
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = btn.dataset.tab;
@@ -16,7 +11,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// ——— Utility ——————————————————————————————————————————————————————————
 function showResult(panelId) {
   const panel = document.getElementById(panelId);
   panel.classList.add('visible');
@@ -24,9 +18,6 @@ function showResult(panelId) {
 
 function roundTo(v, d = 4) { return Math.round(v * Math.pow(10, d)) / Math.pow(10, d); }
 
-// =====================================================================
-//  1. GCD / LCM (EBOB / EKOK)
-// =====================================================================
 function gcd(a, b) {
   a = Math.abs(a); b = Math.abs(b);
   const steps = [];
@@ -93,9 +84,7 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
 }
 
-// =====================================================================
-//  2. Circle (Daire)
-// =====================================================================
+
 document.getElementById('btn-circle').addEventListener('click', () => {
   const r = parseFloat(document.getElementById('circle-r').value);
   const pi = parseFloat(document.getElementById('circle-pi').value);
@@ -139,9 +128,7 @@ function drawCircle(r, pi) {
   ctx.fillText(`π ≈ ${pi}`, cx, cy + cr + 20);
 }
 
-// =====================================================================
-//  3. Triangle (Üçgen)
-// =====================================================================
+
 document.getElementById('btn-triangle').addEventListener('click', () => {
   const b = parseFloat(document.getElementById('tri-base').value);
   const h = parseFloat(document.getElementById('tri-height').value);
@@ -175,9 +162,6 @@ function drawTriangle(base, h) {
   ctx.fillStyle = '#9b6fff'; ctx.textAlign = 'center'; ctx.fillText(`b = ${base}`, (p1.x + p2.x) / 2, p1.y + 22);
 }
 
-// =====================================================================
-//  4. Linear Functions (Doğrusal Fonksiyonlar)
-// =====================================================================
 document.getElementById('btn-function').addEventListener('click', () => {
   const a = parseFloat(document.getElementById('func-a').value) || 0;
   const b = parseFloat(document.getElementById('func-b').value) || 0;
@@ -222,9 +206,6 @@ function drawFunction(a, b) {
 
 function calculateGridStep(v) { return v <= 10 ? 1 : v <= 50 ? 5 : v <= 100 ? 10 : v <= 500 ? 50 : 100; }
 
-// =====================================================================
-//  6. Absolute Value (Mutlak Değer)
-// =====================================================================
 document.getElementById('btn-abs').addEventListener('click', () => {
   const x = parseFloat(document.getElementById('abs-x').value) || 0;
   document.getElementById('res-abs-val').textContent = Math.abs(x);
